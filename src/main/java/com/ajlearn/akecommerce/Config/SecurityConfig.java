@@ -31,7 +31,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                     .authorizeHttpRequests(req -> req
-                            .requestMatchers("/akecommerce", "/auth/**").permitAll()
+                            .requestMatchers("/akecommerce", "/auth/login","/auth/signup").permitAll()
                             .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->
