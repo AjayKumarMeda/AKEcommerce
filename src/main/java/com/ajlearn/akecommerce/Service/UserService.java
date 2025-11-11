@@ -50,4 +50,8 @@ public class UserService {
     public int updateUser(String username, UserInfoUpdate user) {
         return repo.updateUserInfo(username,user);
     }
+
+    public int deleteUser(String username) {
+        return repo.deleteUser(username);
+    }
 }

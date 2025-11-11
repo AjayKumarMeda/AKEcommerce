@@ -87,4 +87,10 @@ public class UserRepo {
     }
 
 
+    public int deleteUser(String username) {
+        String sql = "delete from users where username=:username";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("username",username);
+        return namedParameterJdbcTemplate.update(sql,params);
+    }
 }

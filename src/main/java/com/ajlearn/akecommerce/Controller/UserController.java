@@ -2,19 +2,19 @@ package com.ajlearn.akecommerce.Controller;
 
 import com.ajlearn.akecommerce.Modal.DAO.UserInfoUpdate;
 import com.ajlearn.akecommerce.Modal.User;
+import com.ajlearn.akecommerce.Modal.UserPrincipal;
 import com.ajlearn.akecommerce.Service.JwtService;
 import com.ajlearn.akecommerce.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class UserController {
 
     @Autowired
     private JwtService jwtService;
@@ -37,15 +37,23 @@ public class AuthController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestHeader("Authorization") String token, @RequestBody UserInfoUpdate updateduser) {
-
-        String username = jwtService.extractUsername(token.substring(7));
-        int rows = userService.updateUser(username, updateduser);
+    public String update(Authentication authentication, @RequestBody UserInfoUpdate updateduser) {
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+        int rows = userService.updateUser(principal.getUsername(), updateduser);
         if (rows >= 1)
-            return username + " User updated successfully";
+            return principal.getUsername() + " User updated successfully";
         else
             return "Something went wrong, Not updated anything please again.";
     }
 
+    @PostMapping("/delete")
+    public String delete(Authentication authentication){
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+        int rows = userService.deleteUser(principal.getUsername());
+        if(rows >=1)
+            return "User deleted successfully";
+        else
+            return "Something went wrong, please try again.";
+    }
 
 }
