@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ajlearn</groupId>
-    <artifactId>AKEcommerce</artifactId>
+    <artifactId>AKEcommerce2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>AKEcommerce</name>
     <description>AKEcommerce</description>

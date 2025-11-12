@@ -1,16 +1,17 @@
 package com.ajlearn.akecommerce.Controller;
 
+import com.ajlearn.akecommerce.Modal.DAO.LoginRequest;
 import com.ajlearn.akecommerce.Modal.DAO.UserInfoUpdate;
 import com.ajlearn.akecommerce.Modal.User;
 import com.ajlearn.akecommerce.Modal.UserPrincipal;
 import com.ajlearn.akecommerce.Service.JwtService;
 import com.ajlearn.akecommerce.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -21,9 +22,11 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    public String login(@RequestBody Map<String,String> data){
+    public String login(@RequestBody LoginRequest data){
         return userService.generateJwtToken(data);
     }
 
@@ -36,7 +39,7 @@ public class UserController {
             return "Something went wrong";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String update(Authentication authentication, @RequestBody UserInfoUpdate updateduser) {
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         int rows = userService.updateUser(principal.getUsername(), updateduser);
@@ -46,7 +49,7 @@ public class UserController {
             return "Something went wrong, Not updated anything please again.";
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(Authentication authentication){
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         int rows = userService.deleteUser(principal.getUsername());
