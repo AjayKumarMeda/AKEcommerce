@@ -1,4 +1,4 @@
-package com.ajlearn.akecommerce.Modal;
+package com.ajlearn.akecommerce.Modal.UserModel;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,9 +9,9 @@ import java.util.List;
 
 public class UserPrincipal implements UserDetails {
 
-    private String username;
-    private String password;
-    private String role;
+    private final String username;
+    private final String password;
+    private final String role;
 
     public UserPrincipal(String username, String password, String role) {
         this.username = username;
@@ -28,7 +28,7 @@ public class UserPrincipal implements UserDetails {
     public String getPassword() { return password; }
 
     @Override
-    public String getUsername() { return username; }
+    public String getUsername() {return username; }
 
     @Override
     public boolean isAccountNonExpired() { return true; }

@@ -1,4 +1,4 @@
-package com.ajlearn.akecommerce.Modal;
+package com.ajlearn.akecommerce.Modal.UserModel;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

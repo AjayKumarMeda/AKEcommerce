@@ -1,7 +1,7 @@
 package com.ajlearn.akecommerce.Repo;
 
-import com.ajlearn.akecommerce.Modal.DAO.UserInfoUpdate;
-import com.ajlearn.akecommerce.Modal.User;
+import com.ajlearn.akecommerce.Modal.UserDAO.UserInfoUpdate;
+import com.ajlearn.akecommerce.Modal.UserModel.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -88,5 +88,13 @@ public class UserRepo {
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("username",username);
         return namedParameterJdbcTemplate.update(sql,params);
+    }
+
+    public List<User> findAll(String role) {
+        if (!"ROLE_ADMIN".equalsIgnoreCase(role)) {
+            throw new RuntimeException("Access denied: Only Admin can view all users");
+        }
+        String sql = "select * from users";
+        return namedParameterJdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class));
     }
 }

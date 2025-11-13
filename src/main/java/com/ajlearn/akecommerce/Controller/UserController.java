@@ -1,31 +1,26 @@
 package com.ajlearn.akecommerce.Controller;
 
-import com.ajlearn.akecommerce.Modal.DAO.LoginRequest;
-import com.ajlearn.akecommerce.Modal.DAO.UserInfoUpdate;
-import com.ajlearn.akecommerce.Modal.User;
-import com.ajlearn.akecommerce.Modal.UserPrincipal;
-import com.ajlearn.akecommerce.Service.JwtService;
+import com.ajlearn.akecommerce.Modal.UserDAO.LoginRequest;
+import com.ajlearn.akecommerce.Modal.UserDAO.UserInfoUpdate;
+import com.ajlearn.akecommerce.Modal.UserModel.User;
+import com.ajlearn.akecommerce.Modal.UserModel.UserPrincipal;
 import com.ajlearn.akecommerce.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
 public class UserController {
 
     @Autowired
-    private JwtService jwtService;
-
-    @Autowired
     private UserService userService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public String login(@RequestBody LoginRequest data){
         return userService.generateJwtToken(data);
     }
@@ -59,4 +54,16 @@ public class UserController {
             return "Something went wrong, please try again.";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/allusers")
+    public List<User> findAllUsers(Authentication authentication){
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+        String role = principal.getAuthorities()
+                .stream()
+                .findFirst()
+                .map(GrantedAuthority::getAuthority)
+                .orElse("USER");
+        List<User> users = userService.getAllUsers(role);
+        return users;
+    }
 }

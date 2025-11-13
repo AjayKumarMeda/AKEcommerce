@@ -1,9 +1,9 @@
 package com.ajlearn.akecommerce.Service;
 
-import com.ajlearn.akecommerce.Modal.DAO.LoginRequest;
-import com.ajlearn.akecommerce.Modal.DAO.UserInfoUpdate;
-import com.ajlearn.akecommerce.Modal.User;
-import com.ajlearn.akecommerce.Modal.UserPrincipal;
+import com.ajlearn.akecommerce.Modal.UserDAO.LoginRequest;
+import com.ajlearn.akecommerce.Modal.UserDAO.UserInfoUpdate;
+import com.ajlearn.akecommerce.Modal.UserModel.User;
+import com.ajlearn.akecommerce.Modal.UserModel.UserPrincipal;
 import com.ajlearn.akecommerce.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -56,5 +56,9 @@ public class UserService {
 
     public int deleteUser(String username) {
         return repo.deleteUser(username);
+    }
+
+    public List<User> getAllUsers(String role) {
+        return repo.findAll(role);
     }
 }

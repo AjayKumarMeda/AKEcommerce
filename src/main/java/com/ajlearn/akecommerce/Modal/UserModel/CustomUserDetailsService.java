@@ -1,4 +1,4 @@
-package com.ajlearn.akecommerce.Modal;
+package com.ajlearn.akecommerce.Modal.UserModel;
 
 import com.ajlearn.akecommerce.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             System.out.println("User 404");
             throw new UsernameNotFoundException("Invalid User");
         }
-        return new UserPrincipal(user.getUsername(), user.getPassword(), user.getRole());
+//        System.out.println(user.getRole());
+        return new UserPrincipal(user.getUsername(), user.getPassword(), "ROLE_"+user.getRole());
     }
 }

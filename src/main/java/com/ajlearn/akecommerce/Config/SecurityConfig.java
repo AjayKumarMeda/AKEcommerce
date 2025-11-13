@@ -1,6 +1,6 @@
 package com.ajlearn.akecommerce.Config;
 
-import com.ajlearn.akecommerce.Modal.CustomUserDetailsService;
+import com.ajlearn.akecommerce.Modal.UserModel.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                     .authorizeHttpRequests(req -> req
                             .requestMatchers("/akecommerce", "/auth/login","/auth/signup").permitAll()
-                            .requestMatchers("/auth/delete").hasRole("ADMIN")
+                            .requestMatchers("/auth/allusers").hasRole("ADMIN")
                             .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->
