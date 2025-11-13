@@ -58,7 +58,7 @@ public class UserService {
         return repo.deleteUser(username);
     }
 
-    public List<User> getAllUsers(String role) {
-        return repo.findAll(role);
+    public List<User> getAllUsers() {
+        return repo.findAll();
     }
 }

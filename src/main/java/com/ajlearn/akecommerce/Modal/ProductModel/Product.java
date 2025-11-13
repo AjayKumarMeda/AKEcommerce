@@ -18,12 +18,14 @@ public class Product {
 
     private String name;
     private String description;
+    private String brand;
 
     private double price;
     private int stockQuantity;
 
     private int categoryId;
     private String imageUrl;
+    private String status;
 
 
 }

@@ -54,16 +54,15 @@ public class UserController {
             return "Something went wrong, please try again.";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/allusers")
-    public List<User> findAllUsers(Authentication authentication){
-        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
-        String role = principal.getAuthorities()
-                .stream()
-                .findFirst()
-                .map(GrantedAuthority::getAuthority)
-                .orElse("USER");
-        List<User> users = userService.getAllUsers(role);
+    public List<User> findAllUsers(){
+//        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+//        String role = principal.getAuthorities()
+//                .stream()
+//                .findFirst()
+//                .map(GrantedAuthority::getAuthority)
+//                .orElse("USER");
+        List<User> users = userService.getAllUsers();
         return users;
     }
 }

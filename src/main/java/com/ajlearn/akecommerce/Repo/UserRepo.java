@@ -90,10 +90,7 @@ public class UserRepo {
         return namedParameterJdbcTemplate.update(sql,params);
     }
 
-    public List<User> findAll(String role) {
-        if (!"ROLE_ADMIN".equalsIgnoreCase(role)) {
-            throw new RuntimeException("Access denied: Only Admin can view all users");
-        }
+    public List<User> findAll() {
         String sql = "select * from users";
         return namedParameterJdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class));
     }
