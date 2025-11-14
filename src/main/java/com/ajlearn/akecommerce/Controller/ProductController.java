@@ -43,4 +43,23 @@ public class ProductController {
             return "Something went wrong, please try again";
     }
 
+    @DeleteMapping("/delete")
+    public String deleteProduct(@RequestParam int id){
+        int row = productService.deleteProductById(id);
+        if (row>0)
+            return "Product Deleted Successful.";
+        else
+            return "Something went wrong, please try again";
+    }
+
+    @GetMapping("/search")
+    public List<Product> search(@RequestParam String keyword){
+        return productService.searchProducts(keyword);
+    }
+
+    @GetMapping("/sort")
+    public List<Product> sort(@RequestParam String sortBy,@RequestParam(defaultValue = "asc") String order){
+        return productService.sortProducts(sortBy,order);
+    }
+
 }

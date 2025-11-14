@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                     .authorizeHttpRequests(req -> req
                             .requestMatchers("/akecommerce", "/auth/login","/auth/signup").permitAll()
-                            .requestMatchers("/auth/allusers","/product/create","product/update").hasRole("ADMIN")
+                            .requestMatchers("/auth/allusers","/product/create","product/update","product/delete").hasRole("ADMIN")
                             .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->

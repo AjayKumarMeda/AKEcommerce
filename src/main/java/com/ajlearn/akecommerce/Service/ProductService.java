@@ -28,4 +28,16 @@ public class ProductService {
     public int update(Product product) {
         return productRepo.update(product);
     }
+
+    public int deleteProductById(int id) {
+        return productRepo.deleteById(id);
+    }
+
+    public List<Product> searchProducts(String keyword) {
+        return productRepo.search(keyword);
+    }
+
+    public List<Product> sortProducts(String sortBy, String order) {
+        return productRepo.sort(sortBy,order);
+    }
 }
