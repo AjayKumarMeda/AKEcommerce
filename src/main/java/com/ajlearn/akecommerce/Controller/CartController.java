@@ -25,4 +25,10 @@ public class CartController {
             throw new RuntimeException("Failed to add product to cart");
     }
 
+    @PostMapping("/remove")
+    public Cart removeFromCart(Authentication authentication, @RequestBody Cart cart){
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+        return null;
+    }
+
 }
