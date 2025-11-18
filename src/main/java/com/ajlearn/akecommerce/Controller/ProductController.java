@@ -62,4 +62,9 @@ public class ProductController {
         return productService.sortProducts(sortBy,order);
     }
 
+    @GetMapping("/filter")
+    public List<Product> filterProducts(@RequestParam String fkeyword){
+        return productService.getProductsByFilter(fkeyword);
+    }
+
 }

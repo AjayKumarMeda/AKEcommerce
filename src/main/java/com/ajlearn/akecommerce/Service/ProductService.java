@@ -40,4 +40,8 @@ public class ProductService {
     public List<Product> sortProducts(String sortBy, String order) {
         return productRepo.sort(sortBy,order);
     }
+
+    public List<Product> getProductsByFilter(String fkeyword) {
+        return productRepo.fliter(fkeyword);
+    }
 }

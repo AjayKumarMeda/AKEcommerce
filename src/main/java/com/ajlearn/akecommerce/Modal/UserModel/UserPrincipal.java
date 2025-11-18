@@ -1,5 +1,7 @@
 package com.ajlearn.akecommerce.Modal.UserModel;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,11 +11,14 @@ import java.util.List;
 
 public class UserPrincipal implements UserDetails {
 
+    @Getter
+    private final Long id;
     private final String username;
     private final String password;
     private final String role;
 
-    public UserPrincipal(String username, String password, String role) {
+    public UserPrincipal(Long id, String username, String password, String role) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;

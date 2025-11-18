@@ -21,6 +21,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Invalid User");
         }
 //        System.out.println(user.getRole());
-        return new UserPrincipal(user.getUsername(), user.getPassword(), "ROLE_"+user.getRole());
+        return new UserPrincipal(user.getId(),user.getUsername(), user.getPassword(), "ROLE_"+user.getRole());
     }
 }

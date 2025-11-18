@@ -92,4 +92,13 @@ public class ProductRepo {
         MapSqlParameterSource params = new MapSqlParameterSource();
         return namedParameterJdbcTemplate.query(sql,params,new BeanPropertyRowMapper<>(Product.class));
     }
+
+    public List<Product> fliter(String fkeyword) {
+        String sql = "select p.* from products p " +
+                "join categories c on p.category_id = c.id where LOWER(c.name) = LOWER(:fkeyword)";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("fkeyword",fkeyword);
+
+        return namedParameterJdbcTemplate.query(sql,params,new BeanPropertyRowMapper<>(Product.class));
+    }
 }
