@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Setter
 public class Cart {
 
-    private Long id;
-    private Long userId;
-    private String username;
+//    private Long id;
+//    private Long userId;
+//    private String username;
     private Long productId;
     private int quantity;
 }
