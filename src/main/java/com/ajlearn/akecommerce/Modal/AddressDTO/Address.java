@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Setter
 public class Address {
 
+    private Long id;
     private String fullName;
     private String phone;
 
