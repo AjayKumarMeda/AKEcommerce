@@ -1,9 +1,9 @@
 package com.ajlearn.akecommerce.Service;
 
-import com.ajlearn.akecommerce.Modal.UserDAO.LoginRequest;
-import com.ajlearn.akecommerce.Modal.UserDAO.UserInfoUpdate;
-import com.ajlearn.akecommerce.Modal.UserModel.User;
-import com.ajlearn.akecommerce.Modal.UserModel.UserPrincipal;
+import com.ajlearn.akecommerce.Modal.UserDTO.LoginRequest;
+import com.ajlearn.akecommerce.Modal.UserDTO.UserInfoUpdate;
+import com.ajlearn.akecommerce.Modal.User.User;
+import com.ajlearn.akecommerce.Modal.User.UserPrincipal;
 import com.ajlearn.akecommerce.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;

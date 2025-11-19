@@ -1,4 +1,4 @@
-package com.ajlearn.akecommerce.Modal.UserDAO;
+package com.ajlearn.akecommerce.Modal.UserDTO;
 
 
 import lombok.Getter;

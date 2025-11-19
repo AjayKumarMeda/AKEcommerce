@@ -1,6 +1,6 @@
 package com.ajlearn.akecommerce.Service;
 
-import com.ajlearn.akecommerce.Modal.ProductModel.Product;
+import com.ajlearn.akecommerce.Modal.Product.Product;
 import com.ajlearn.akecommerce.Repo.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

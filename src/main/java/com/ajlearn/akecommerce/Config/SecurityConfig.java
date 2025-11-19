@@ -1,6 +1,6 @@
 package com.ajlearn.akecommerce.Config;
 
-import com.ajlearn.akecommerce.Modal.UserModel.CustomUserDetailsService;
+import com.ajlearn.akecommerce.Modal.User.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
