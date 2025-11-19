@@ -1,4 +1,4 @@
-package com.ajlearn.akecommerce.Modal.UserModel;
+package com.ajlearn.akecommerce.Modal.User;
 
 import com.ajlearn.akecommerce.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;

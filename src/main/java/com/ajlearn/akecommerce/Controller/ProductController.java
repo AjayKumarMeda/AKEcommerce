@@ -1,11 +1,10 @@
 package com.ajlearn.akecommerce.Controller;
 
-import com.ajlearn.akecommerce.Modal.ProductModel.Product;
+import com.ajlearn.akecommerce.Modal.Product.Product;
 import com.ajlearn.akecommerce.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.PrivateKey;
 import java.util.List;
 
 @RestController

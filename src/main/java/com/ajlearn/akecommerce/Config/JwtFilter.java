@@ -1,6 +1,6 @@
 package com.ajlearn.akecommerce.Config;
 
-import com.ajlearn.akecommerce.Modal.UserModel.CustomUserDetailsService;
+import com.ajlearn.akecommerce.Modal.User.CustomUserDetailsService;
 import com.ajlearn.akecommerce.Service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

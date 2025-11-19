@@ -1,8 +1,7 @@
 package com.ajlearn.akecommerce.Repo;
 
-import com.ajlearn.akecommerce.Modal.ProductModel.Product;
+import com.ajlearn.akecommerce.Modal.Product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

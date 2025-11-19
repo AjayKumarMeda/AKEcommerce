@@ -1,6 +1,6 @@
 package com.ajlearn.akecommerce.Service;
 
-import com.ajlearn.akecommerce.Modal.CartDAO.Cart;
+import com.ajlearn.akecommerce.Modal.CartDTO.Cart;
 import com.ajlearn.akecommerce.Repo.CartRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

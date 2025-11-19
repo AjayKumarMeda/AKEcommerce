@@ -1,7 +1,7 @@
 package com.ajlearn.akecommerce.Repo;
 
-import com.ajlearn.akecommerce.Modal.UserDAO.UserInfoUpdate;
-import com.ajlearn.akecommerce.Modal.UserModel.User;
+import com.ajlearn.akecommerce.Modal.UserDTO.UserInfoUpdate;
+import com.ajlearn.akecommerce.Modal.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

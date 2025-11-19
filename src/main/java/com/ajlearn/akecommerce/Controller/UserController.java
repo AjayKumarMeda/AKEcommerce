@@ -1,14 +1,12 @@
 package com.ajlearn.akecommerce.Controller;
 
-import com.ajlearn.akecommerce.Modal.UserDAO.LoginRequest;
-import com.ajlearn.akecommerce.Modal.UserDAO.UserInfoUpdate;
-import com.ajlearn.akecommerce.Modal.UserModel.User;
-import com.ajlearn.akecommerce.Modal.UserModel.UserPrincipal;
+import com.ajlearn.akecommerce.Modal.UserDTO.LoginRequest;
+import com.ajlearn.akecommerce.Modal.UserDTO.UserInfoUpdate;
+import com.ajlearn.akecommerce.Modal.User.User;
+import com.ajlearn.akecommerce.Modal.User.UserPrincipal;
 import com.ajlearn.akecommerce.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

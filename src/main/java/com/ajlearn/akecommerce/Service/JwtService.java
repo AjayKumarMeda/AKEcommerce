@@ -1,6 +1,6 @@
 package com.ajlearn.akecommerce.Service;
 
-import com.ajlearn.akecommerce.Modal.UserModel.UserPrincipal;
+import com.ajlearn.akecommerce.Modal.User.UserPrincipal;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;

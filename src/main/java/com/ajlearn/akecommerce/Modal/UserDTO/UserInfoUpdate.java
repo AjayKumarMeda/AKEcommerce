@@ -1,8 +1,7 @@
-package com.ajlearn.akecommerce.Modal.UserDAO;
+package com.ajlearn.akecommerce.Modal.UserDTO;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
 @Setter
 @Getter

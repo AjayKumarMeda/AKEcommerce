@@ -1,8 +1,7 @@
 package com.ajlearn.akecommerce.Controller;
 
-import com.ajlearn.akecommerce.Modal.CartDAO.Cart;
-import com.ajlearn.akecommerce.Modal.UserModel.User;
-import com.ajlearn.akecommerce.Modal.UserModel.UserPrincipal;
+import com.ajlearn.akecommerce.Modal.CartDTO.Cart;
+import com.ajlearn.akecommerce.Modal.User.UserPrincipal;
 import com.ajlearn.akecommerce.Service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

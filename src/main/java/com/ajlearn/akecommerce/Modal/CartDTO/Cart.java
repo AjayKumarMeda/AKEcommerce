@@ -1,4 +1,4 @@
-package com.ajlearn.akecommerce.Modal.CartDAO;
+package com.ajlearn.akecommerce.Modal.CartDTO;
 
 import lombok.Getter;
 import lombok.Setter;
