@@ -13,4 +13,5 @@ public class OrderItemsDTO {
     private String name;
     private int quantity;
     private Double price;
+    private String status;
 }

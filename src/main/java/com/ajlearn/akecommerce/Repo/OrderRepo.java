@@ -22,8 +22,8 @@ public class OrderRepo {
     public List<Order> find(Long id) {
         String sql = "select * from orders where user_id = :userId";
         MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("userId",id);
-        return namedParameterJdbcTemplate.query(sql,params,new BeanPropertyRowMapper<>(Order.class));
+                .addValue("userId", id);
+        return namedParameterJdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(Order.class));
     }
 
     public List<Map<String, Object>> getCartItems(Long id) {
@@ -31,19 +31,19 @@ public class OrderRepo {
                 "from usercart c join products p on c.product_id = p.id " +
                 "where c.user_id = :userId";
         MapSqlParameterSource cartParams = new MapSqlParameterSource()
-                .addValue("userId",id);
-        return namedParameterJdbcTemplate.queryForList(cartSql,cartParams);
+                .addValue("userId", id);
+        return namedParameterJdbcTemplate.queryForList(cartSql, cartParams);
     }
 
     public Long addOrder(Long id, Long addressId, BigDecimal total) {
         String orderSql = "insert into orders (user_id, address_id, total_amount) " +
                 "values (:userId, :addressId, :total) Returning id";
         MapSqlParameterSource orderParams = new MapSqlParameterSource()
-                .addValue("userId",id)
-                .addValue("addressId",addressId)
-                .addValue("total",total);
+                .addValue("userId", id)
+                .addValue("addressId", addressId)
+                .addValue("total", total);
         return namedParameterJdbcTemplate
-                .queryForObject(orderSql,orderParams,Long.class);
+                .queryForObject(orderSql, orderParams, Long.class);
     }
 
     public int addOrderItems(Long orderId, Map<String, Object> items) {
@@ -52,26 +52,69 @@ public class OrderRepo {
         //While insect order items, we should reduce the Stock Quantity of each Product
         String stockSql = "update products set stock_quantity = stock_quantity - :quantity " +
                 "where id = :productId and stock_quantity >= :quantity";
-            MapSqlParameterSource itemParams = new MapSqlParameterSource()
-                    .addValue("orderId", orderId)
-                    .addValue("productId", items.get("product_id"))
-                    .addValue("quantity",items.get("quantity"))
-                    .addValue("price",items.get("price"));
-            namedParameterJdbcTemplate.update(itemSql,itemParams);
-            return namedParameterJdbcTemplate.update(stockSql,itemParams);
+        MapSqlParameterSource itemParams = new MapSqlParameterSource()
+                .addValue("orderId", orderId)
+                .addValue("productId", items.get("product_id"))
+                .addValue("quantity", items.get("quantity"))
+                .addValue("price", items.get("price"));
+        namedParameterJdbcTemplate.update(itemSql, itemParams);
+        return namedParameterJdbcTemplate.update(stockSql, itemParams);
     }
 
     public int deleteCart(Long id) {
         String delSql = "delete from usercart where user_id=:userId";
         MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("userId",id);
-        return namedParameterJdbcTemplate.update(delSql,params);
+                .addValue("userId", id);
+        return namedParameterJdbcTemplate.update(delSql, params);
     }
 
     public OrderResponse createOrder(Long orderId, BigDecimal total,
                                      List<Map<String, Object>> cartItems) {
         return new OrderResponse(
                 "Order Placed Successfully",
+                orderId,
+                total,
+                cartItems
+        );
+    }
+
+    public Map<String, Object> findOrderById(Long orderId) {
+        String sql = "select user_id,order_status,total_amount from orders where id = :orderId";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("orderId", orderId);
+        return namedParameterJdbcTemplate.queryForMap(sql, params);
+    }
+
+    public List<Map<String, Object>> getOrderItems(Long orderId) {
+        String sql = "select product_id,quantity from order_items where order_id = :orderId";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("orderId", orderId);
+        return namedParameterJdbcTemplate.queryForList(sql, params);
+    }
+
+    public int restore(Long orderId, Map<String, Object> item) {
+        String productsSql = "update products set stock_quantity = stock_quantity + :quantity " +
+                "where id = :product_id";
+        String itemSql = "update order_items set status = 'CANCELLED' " +
+                "where order_id = :orderId and product_id = :product_id";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("quantity", item.get("quantity"))
+                .addValue("product_id", item.get("product_id"))
+                .addValue("orderId",orderId);
+        namedParameterJdbcTemplate.update(productsSql,params);
+        return namedParameterJdbcTemplate.update(itemSql, params);
+    }
+
+    public int statusChange(Long orderId) {
+        String sql = "update orders set order_status = 'CANCELLED' where id = :orderId";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("orderId",orderId);
+        return namedParameterJdbcTemplate.update(sql,params);
+    }
+
+    public OrderResponse cancel(Long orderId, BigDecimal total, List<Map<String, Object>> cartItems) {
+        return new OrderResponse(
+                "Order Cancelled Successfully.",
                 orderId,
                 total,
                 cartItems

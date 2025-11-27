@@ -29,4 +29,10 @@ public class  OrderController {
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         return orderService.findAll(principal.getId());
     }
+
+    @PutMapping("/cancel")
+    public OrderResponse cancelOrder(Authentication authentication, @RequestParam Long orderId){
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+        return orderService.cancelOrderById(principal.getId(),orderId);
+    }
 }
