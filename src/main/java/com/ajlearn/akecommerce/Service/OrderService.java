@@ -17,6 +17,8 @@ public class OrderService {
     private OrderRepo orderRepo;
 
     List<Map<String, Object>> cartItems;
+    List<Map<String,Object>> orderItems;
+    Map<String, Object> order;
     int updated;
 
     @Transactional
@@ -48,7 +50,8 @@ public class OrderService {
         if (deleted == 0)
             throw new RuntimeException("Unable to delete the Cart");
 
-        return orderRepo.createOrder(orderId, total, cartItems);
+        return orderRepo.displayOrder("Order Placed successfully.",
+                orderId, total, cartItems);
     }
 
     public List<Order> findAll(Long id) {
@@ -58,21 +61,21 @@ public class OrderService {
     @Transactional
     public OrderResponse cancelOrderById(Long id, Long orderId) {
         //Get Order Details
-        Map<String, Object> order = orderRepo.findOrderById(orderId);
+        order = orderRepo.findOrderById(orderId);
 
-        //Check if order belongs to user
-        if (!order.get("order_status").equals("PENDING"))
-            throw new RuntimeException("Order can't be cancelled at this stage.");
         //Check the status
         if (!order.get("user_id").equals(id))
             throw new RuntimeException("Not Your Order.");
+        //Check if order belongs to user
+        if (!order.get("order_status").equals("PENDING"))
+            throw new RuntimeException("Order can't be cancelled at this stage.");
 
         //Get Items for stack restore
-        cartItems = orderRepo.getOrderItems(orderId);
-        if (cartItems.isEmpty())
+        orderItems = orderRepo.getOrderItems(orderId);
+        if (orderItems.isEmpty())
             throw new RuntimeException("order items are Empty...");
         //Restore Stacks
-        for (Map<String, Object> item : cartItems) {
+        for (Map<String, Object> item : orderItems) {
             updated = orderRepo.restore(orderId,item);
             if (updated == 0)
                 throw new RuntimeException("unable restore stocks!");
@@ -83,6 +86,26 @@ public class OrderService {
         if (updated == 0)
             throw new RuntimeException("Unable to cancel the order.");
 
-        return orderRepo.cancel(orderId,(BigDecimal) order.get("total_amount"),cartItems);
+        return orderRepo.displayOrder("Order Cancelled successfully.",
+                orderId,(BigDecimal) order.get("total_amount"),orderItems);
+    }
+
+    @Transactional
+    public OrderResponse updateOrderStatus(Long id, Long userId, Long orderId, String status) {
+        order = orderRepo.findOrderById(orderId);
+        if (!order.get("user_id").equals(orderRepo.checkUser((Long) order.get("user_id"))))
+            throw new RuntimeException("User Not Matched..");
+        updated = orderRepo.updateStatus(id,userId,orderId,status,(String) order.get("order_status"));
+        if (updated == 0)
+            throw new RuntimeException("Unable to update the status of order");
+        orderItems = orderRepo.getOrderItems(orderId);
+        return orderRepo.displayOrder("Order Status Updated.",
+                orderId,(BigDecimal) order.get("total_amount"),orderItems);
+    }
+
+    public OrderResponse getOrderDetails(Long id, Long orderId) {
+         order = orderRepo.findOrderById(orderId);
+        orderItems = orderRepo.getOrderItems(orderId);
+        return orderRepo.displayOrder("Order Details",orderId,(BigDecimal) order.get("total_amount"),orderItems);
     }
 }

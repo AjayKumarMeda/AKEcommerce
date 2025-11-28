@@ -74,3 +74,40 @@ CREATE TABLE addresses (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
 );
+
+--User Order Table Creation
+CREATE TABLE orders (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    address_id BIGINT NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL CHECK (total_amount >= 0),
+    order_status VARCHAR(20) DEFAULT 'PENDING'
+        CHECK (order_status IN ('PENDING','CONFIRMED','CANCELLED','DELIVERED')),
+    payment_status VARCHAR(20) DEFAULT 'NOT_PAID'
+        CHECK (payment_status IN ('NOT_PAID','PAID')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIME
+);
+
+--user Order_items Table Creation
+CREATE TABLE order_items (
+    id BIGSERIAL PRIMARY KEY,
+    order_id BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    product_id BIGINT NOT NULL REFERENCES products(id),
+    quantity INT NOT NULL CHECK (quantity > 0),
+    price_at_purchase DECIMAL(10,2) NOT NULL CHECK (price_at_purchase >= 0)
+    state varchar(50)
+);
+
+--Order Status History Table Creation
+CREATE TABLE order_status_history (
+    id BIGSERIAL PRIMARY KEY,
+    order_id BIGINT NOT NULL REFERENCES orders(id),
+
+    old_status VARCHAR(50),
+    new_status VARCHAR(50),
+
+    changed_by_id BIGINT,             -- user/admin/agent ID (nullable when system)
+
+    reason TEXT,
+    changed_at TIMESTAMP DEFAULT NOW()
+);

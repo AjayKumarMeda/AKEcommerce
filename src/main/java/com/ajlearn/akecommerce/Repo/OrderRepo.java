@@ -6,6 +6,7 @@ import io.jsonwebtoken.lang.Maps;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -68,10 +69,10 @@ public class OrderRepo {
         return namedParameterJdbcTemplate.update(delSql, params);
     }
 
-    public OrderResponse createOrder(Long orderId, BigDecimal total,
+    public OrderResponse displayOrder(String msg,Long orderId, BigDecimal total,
                                      List<Map<String, Object>> cartItems) {
         return new OrderResponse(
-                "Order Placed Successfully",
+                msg,
                 orderId,
                 total,
                 cartItems
@@ -86,7 +87,7 @@ public class OrderRepo {
     }
 
     public List<Map<String, Object>> getOrderItems(Long orderId) {
-        String sql = "select product_id,quantity from order_items where order_id = :orderId";
+        String sql = "select product_id,quantity,status from order_items where order_id = :orderId";
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("orderId", orderId);
         return namedParameterJdbcTemplate.queryForList(sql, params);
@@ -112,12 +113,28 @@ public class OrderRepo {
         return namedParameterJdbcTemplate.update(sql,params);
     }
 
-    public OrderResponse cancel(Long orderId, BigDecimal total, List<Map<String, Object>> cartItems) {
-        return new OrderResponse(
-                "Order Cancelled Successfully.",
-                orderId,
-                total,
-                cartItems
-        );
+    public int updateStatus(Long id, Long userId, Long orderId, String newStatus, String oldStatus) {
+        String orderSql = "update orders set order_status = :newStatus " +
+                "where user_id = :userId and id = :orderId";
+        String itemSql = "update order_items set status = :newStatus " +
+                "where order_id = :orderId";
+        String historySql = "insert into order_status_history (order_id, old_status, new_status, changed_by_id) " +
+                "values (:orderId, :oldStatus, :newStatus, :changedUserId)";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("changedUserId",id)
+                .addValue("userId",userId)
+                .addValue("orderId",orderId)
+                .addValue("newStatus",newStatus)
+                .addValue("oldStatus",oldStatus);
+        namedParameterJdbcTemplate.update(orderSql,params);
+        namedParameterJdbcTemplate.update(itemSql,params);
+        return namedParameterJdbcTemplate.update(historySql,params);
+    }
+
+    public Long checkUser(Long userId) {
+        String sql = "select id from users where id = :userId ";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("userId",userId);
+        return namedParameterJdbcTemplate.queryForObject(sql,params,Long.class);
     }
 }
